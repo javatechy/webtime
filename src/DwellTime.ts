@@ -30,14 +30,6 @@ interface Times {
   stop: number | null;
 }
 
-interface Mark {
-  time: number;
-}
-
-interface Marks {
-  [key: string]: Mark[];
-}
-
 const windowIdleEvents = ["scroll", "resize"];
 const documentIdleEvents = [
   "keyup",
@@ -245,13 +237,13 @@ export default class DwellTime {
     return this.running;
   };
 
-  //Reset all times
+  // Reset all times
   public reset = () => {
     this.times = [];
     //this.destroy();
   };
 
-  //Cleanup event listeners and timers
+  // Cleanup event listeners and timers
   public destroy = () => {
     this.unregisterEventListeners();
     if (this.checkCallbackIntervalId) {
