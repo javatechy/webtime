@@ -31,6 +31,18 @@ export class PageA extends React.Component {
       }
     };
     dwellTime.addTimeIntervalEllapsedCallback(cb);
+    //querySelector
+    var monitor = setInterval(() => {
+      var elem = document.activeElement;
+      if (elem && elem.tagName == "IFRAME") {
+        //clearInterval(monitor);
+        // Add timer
+        if (!document.hidden) {
+          dwellTime.startTimer();
+          console.log("clicked!");
+        }
+      }
+    }, 50);
 
     return (
       <div>
@@ -43,6 +55,7 @@ export class PageA extends React.Component {
             <span id="timeInSeconds">0</span> <span>seconds</span> <br /> <br />{" "}
             <br />
             <iframe
+              id="dframe"
               width="420"
               height="345"
               src="https://www.youtube.com/embed/tgbNymZ7vqY"

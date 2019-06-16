@@ -30,6 +30,7 @@ interface Times {
   stop: number | null;
 }
 
+// Window/document events
 const windowIdleEvents = ["scroll", "resize"];
 const documentIdleEvents = [
   "keyup",
@@ -48,8 +49,8 @@ export default class DwellTime {
 
   private idleTimeoutMs: number;
   private checkCallbacksIntervalMs: number;
-  private browserTabActiveCallbacks: BasicCallback[];
-  private browserTabInactiveCallbacks: BasicCallback[];
+  private browserTabActiveCallbacks: BasicCallback[]; // when tab is active
+  private browserTabInactiveCallbacks: BasicCallback[];// when tab is inactive
   private timeIntervalEllapsedCallbacks: TimeIntervalEllapsedCallbackData[];
   private absoluteTimeEllapsedCallbacks: AbsoluteTimeEllapsedCallbackData[];
 
@@ -65,13 +66,12 @@ export default class DwellTime {
     this.times = [];
     this.idle = false;
     this.currentIdleTimeMs = 0;
-    this.browserTabActiveCallbacks = browserTabActiveCallbacks || [];
-    this.browserTabInactiveCallbacks = browserTabInactiveCallbacks || [];
-    this.checkCallbacksIntervalMs = checkCallbacksIntervalMs || 100;
     this.idleTimeoutMs = idleTimeoutMs || 3000; // 3s
+    this.checkCallbacksIntervalMs = checkCallbacksIntervalMs || 100;
     this.timeIntervalEllapsedCallbacks = timeIntervalEllapsedCallbacks || [];
     this.absoluteTimeEllapsedCallbacks = absoluteTimeEllapsedCallbacks || [];
-
+    this.browserTabActiveCallbacks = browserTabActiveCallbacks || [];
+    this.browserTabInactiveCallbacks = browserTabInactiveCallbacks || [];
     this.registerEventListeners();
   }
 
@@ -105,7 +105,7 @@ export default class DwellTime {
     this.currentIdleTimeMs = 0;
   };
 
-  private resetIdleTimeWithStartTimer = () => {
+  public resetIdleTimeWithStartTimer = () => {
     this.resetIdleTime();
     this.startTimer();
   };
@@ -181,6 +181,9 @@ export default class DwellTime {
     this.running = false;
   };
 
+  public resumeTimer = () => {
+    this.running = true;
+  }
   //Get Time in Milliseconds
   public getTimeInMilliseconds = (): number => {
     return this.times.reduce((acc, current) => {
@@ -237,7 +240,7 @@ export default class DwellTime {
     return this.running;
   };
 
-  // Reset all times
+  //  Reset all times
   public reset = () => {
     this.times = [];
     //this.destroy();
