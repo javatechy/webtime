@@ -32,17 +32,31 @@ export class PageA extends React.Component {
     };
     dwellTime.addTimeIntervalEllapsedCallback(cb);
     //querySelector
+    
     var monitor = setInterval(() => {
+       var isTabActive;
+
       var elem = document.activeElement;
+      window.onfocus = function () { 
+        isTabActive = true; 
+      }; 
+      
+      window.onblur = function () { 
+        isTabActive = false; 
+      }; 
       if (elem && elem.tagName == "IFRAME") {
         //clearInterval(monitor);
         // Add timer
-        if (!document.hidden) {
+        if (isTabActive) {
           dwellTime.startTimer();
           console.log("clicked!");
+        }else {
+          dwellTime.stopTimer();
         }
       }
     }, 50);
+
+   
 
     return (
       <div>
