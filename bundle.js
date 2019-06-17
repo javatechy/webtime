@@ -10624,702 +10624,6 @@ module.exports = Array.isArray || function (arr) {
 
 /***/ }),
 
-/***/ "../node_modules/lodash/_Symbol.js":
-/*!*****************************************!*\
-  !*** ../node_modules/lodash/_Symbol.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__(/*! ./_root */ "../node_modules/lodash/_root.js");
-
-/** Built-in value references. */
-var Symbol = root.Symbol;
-
-module.exports = Symbol;
-
-
-/***/ }),
-
-/***/ "../node_modules/lodash/_baseGetTag.js":
-/*!*********************************************!*\
-  !*** ../node_modules/lodash/_baseGetTag.js ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Symbol = __webpack_require__(/*! ./_Symbol */ "../node_modules/lodash/_Symbol.js"),
-    getRawTag = __webpack_require__(/*! ./_getRawTag */ "../node_modules/lodash/_getRawTag.js"),
-    objectToString = __webpack_require__(/*! ./_objectToString */ "../node_modules/lodash/_objectToString.js");
-
-/** `Object#toString` result references. */
-var nullTag = '[object Null]',
-    undefinedTag = '[object Undefined]';
-
-/** Built-in value references. */
-var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-
-/**
- * The base implementation of `getTag` without fallbacks for buggy environments.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function baseGetTag(value) {
-  if (value == null) {
-    return value === undefined ? undefinedTag : nullTag;
-  }
-  return (symToStringTag && symToStringTag in Object(value))
-    ? getRawTag(value)
-    : objectToString(value);
-}
-
-module.exports = baseGetTag;
-
-
-/***/ }),
-
-/***/ "../node_modules/lodash/_freeGlobal.js":
-/*!*********************************************!*\
-  !*** ../node_modules/lodash/_freeGlobal.js ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
-var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
-
-module.exports = freeGlobal;
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "../node_modules/webpack/buildin/global.js")))
-
-/***/ }),
-
-/***/ "../node_modules/lodash/_getRawTag.js":
-/*!********************************************!*\
-  !*** ../node_modules/lodash/_getRawTag.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Symbol = __webpack_require__(/*! ./_Symbol */ "../node_modules/lodash/_Symbol.js");
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var nativeObjectToString = objectProto.toString;
-
-/** Built-in value references. */
-var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-
-/**
- * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the raw `toStringTag`.
- */
-function getRawTag(value) {
-  var isOwn = hasOwnProperty.call(value, symToStringTag),
-      tag = value[symToStringTag];
-
-  try {
-    value[symToStringTag] = undefined;
-    var unmasked = true;
-  } catch (e) {}
-
-  var result = nativeObjectToString.call(value);
-  if (unmasked) {
-    if (isOwn) {
-      value[symToStringTag] = tag;
-    } else {
-      delete value[symToStringTag];
-    }
-  }
-  return result;
-}
-
-module.exports = getRawTag;
-
-
-/***/ }),
-
-/***/ "../node_modules/lodash/_objectToString.js":
-/*!*************************************************!*\
-  !*** ../node_modules/lodash/_objectToString.js ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var nativeObjectToString = objectProto.toString;
-
-/**
- * Converts `value` to a string using `Object.prototype.toString`.
- *
- * @private
- * @param {*} value The value to convert.
- * @returns {string} Returns the converted string.
- */
-function objectToString(value) {
-  return nativeObjectToString.call(value);
-}
-
-module.exports = objectToString;
-
-
-/***/ }),
-
-/***/ "../node_modules/lodash/_root.js":
-/*!***************************************!*\
-  !*** ../node_modules/lodash/_root.js ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var freeGlobal = __webpack_require__(/*! ./_freeGlobal */ "../node_modules/lodash/_freeGlobal.js");
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
-
-module.exports = root;
-
-
-/***/ }),
-
-/***/ "../node_modules/lodash/debounce.js":
-/*!******************************************!*\
-  !*** ../node_modules/lodash/debounce.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(/*! ./isObject */ "../node_modules/lodash/isObject.js"),
-    now = __webpack_require__(/*! ./now */ "../node_modules/lodash/now.js"),
-    toNumber = __webpack_require__(/*! ./toNumber */ "../node_modules/lodash/toNumber.js");
-
-/** Error message constants. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max,
-    nativeMin = Math.min;
-
-/**
- * Creates a debounced function that delays invoking `func` until after `wait`
- * milliseconds have elapsed since the last time the debounced function was
- * invoked. The debounced function comes with a `cancel` method to cancel
- * delayed `func` invocations and a `flush` method to immediately invoke them.
- * Provide `options` to indicate whether `func` should be invoked on the
- * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
- * with the last arguments provided to the debounced function. Subsequent
- * calls to the debounced function return the result of the last `func`
- * invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the debounced function
- * is invoked more than once during the `wait` timeout.
- *
- * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
- * until to the next tick, similar to `setTimeout` with a timeout of `0`.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.debounce` and `_.throttle`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to debounce.
- * @param {number} [wait=0] The number of milliseconds to delay.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=false]
- *  Specify invoking on the leading edge of the timeout.
- * @param {number} [options.maxWait]
- *  The maximum time `func` is allowed to be delayed before it's invoked.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new debounced function.
- * @example
- *
- * // Avoid costly calculations while the window size is in flux.
- * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
- *
- * // Invoke `sendMail` when clicked, debouncing subsequent calls.
- * jQuery(element).on('click', _.debounce(sendMail, 300, {
- *   'leading': true,
- *   'trailing': false
- * }));
- *
- * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
- * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
- * var source = new EventSource('/stream');
- * jQuery(source).on('message', debounced);
- *
- * // Cancel the trailing debounced invocation.
- * jQuery(window).on('popstate', debounced.cancel);
- */
-function debounce(func, wait, options) {
-  var lastArgs,
-      lastThis,
-      maxWait,
-      result,
-      timerId,
-      lastCallTime,
-      lastInvokeTime = 0,
-      leading = false,
-      maxing = false,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  wait = toNumber(wait) || 0;
-  if (isObject(options)) {
-    leading = !!options.leading;
-    maxing = 'maxWait' in options;
-    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-
-  function invokeFunc(time) {
-    var args = lastArgs,
-        thisArg = lastThis;
-
-    lastArgs = lastThis = undefined;
-    lastInvokeTime = time;
-    result = func.apply(thisArg, args);
-    return result;
-  }
-
-  function leadingEdge(time) {
-    // Reset any `maxWait` timer.
-    lastInvokeTime = time;
-    // Start the timer for the trailing edge.
-    timerId = setTimeout(timerExpired, wait);
-    // Invoke the leading edge.
-    return leading ? invokeFunc(time) : result;
-  }
-
-  function remainingWait(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime,
-        timeWaiting = wait - timeSinceLastCall;
-
-    return maxing
-      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
-      : timeWaiting;
-  }
-
-  function shouldInvoke(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime;
-
-    // Either this is the first call, activity has stopped and we're at the
-    // trailing edge, the system time has gone backwards and we're treating
-    // it as the trailing edge, or we've hit the `maxWait` limit.
-    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
-      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
-  }
-
-  function timerExpired() {
-    var time = now();
-    if (shouldInvoke(time)) {
-      return trailingEdge(time);
-    }
-    // Restart the timer.
-    timerId = setTimeout(timerExpired, remainingWait(time));
-  }
-
-  function trailingEdge(time) {
-    timerId = undefined;
-
-    // Only invoke if we have `lastArgs` which means `func` has been
-    // debounced at least once.
-    if (trailing && lastArgs) {
-      return invokeFunc(time);
-    }
-    lastArgs = lastThis = undefined;
-    return result;
-  }
-
-  function cancel() {
-    if (timerId !== undefined) {
-      clearTimeout(timerId);
-    }
-    lastInvokeTime = 0;
-    lastArgs = lastCallTime = lastThis = timerId = undefined;
-  }
-
-  function flush() {
-    return timerId === undefined ? result : trailingEdge(now());
-  }
-
-  function debounced() {
-    var time = now(),
-        isInvoking = shouldInvoke(time);
-
-    lastArgs = arguments;
-    lastThis = this;
-    lastCallTime = time;
-
-    if (isInvoking) {
-      if (timerId === undefined) {
-        return leadingEdge(lastCallTime);
-      }
-      if (maxing) {
-        // Handle invocations in a tight loop.
-        timerId = setTimeout(timerExpired, wait);
-        return invokeFunc(lastCallTime);
-      }
-    }
-    if (timerId === undefined) {
-      timerId = setTimeout(timerExpired, wait);
-    }
-    return result;
-  }
-  debounced.cancel = cancel;
-  debounced.flush = flush;
-  return debounced;
-}
-
-module.exports = debounce;
-
-
-/***/ }),
-
-/***/ "../node_modules/lodash/isObject.js":
-/*!******************************************!*\
-  !*** ../node_modules/lodash/isObject.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return value != null && (type == 'object' || type == 'function');
-}
-
-module.exports = isObject;
-
-
-/***/ }),
-
-/***/ "../node_modules/lodash/isObjectLike.js":
-/*!**********************************************!*\
-  !*** ../node_modules/lodash/isObjectLike.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return value != null && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
-
-/***/ }),
-
-/***/ "../node_modules/lodash/isSymbol.js":
-/*!******************************************!*\
-  !*** ../node_modules/lodash/isSymbol.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseGetTag = __webpack_require__(/*! ./_baseGetTag */ "../node_modules/lodash/_baseGetTag.js"),
-    isObjectLike = __webpack_require__(/*! ./isObjectLike */ "../node_modules/lodash/isObjectLike.js");
-
-/** `Object#toString` result references. */
-var symbolTag = '[object Symbol]';
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike(value) && baseGetTag(value) == symbolTag);
-}
-
-module.exports = isSymbol;
-
-
-/***/ }),
-
-/***/ "../node_modules/lodash/now.js":
-/*!*************************************!*\
-  !*** ../node_modules/lodash/now.js ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__(/*! ./_root */ "../node_modules/lodash/_root.js");
-
-/**
- * Gets the timestamp of the number of milliseconds that have elapsed since
- * the Unix epoch (1 January 1970 00:00:00 UTC).
- *
- * @static
- * @memberOf _
- * @since 2.4.0
- * @category Date
- * @returns {number} Returns the timestamp.
- * @example
- *
- * _.defer(function(stamp) {
- *   console.log(_.now() - stamp);
- * }, _.now());
- * // => Logs the number of milliseconds it took for the deferred invocation.
- */
-var now = function() {
-  return root.Date.now();
-};
-
-module.exports = now;
-
-
-/***/ }),
-
-/***/ "../node_modules/lodash/throttle.js":
-/*!******************************************!*\
-  !*** ../node_modules/lodash/throttle.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var debounce = __webpack_require__(/*! ./debounce */ "../node_modules/lodash/debounce.js"),
-    isObject = __webpack_require__(/*! ./isObject */ "../node_modules/lodash/isObject.js");
-
-/** Error message constants. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/**
- * Creates a throttled function that only invokes `func` at most once per
- * every `wait` milliseconds. The throttled function comes with a `cancel`
- * method to cancel delayed `func` invocations and a `flush` method to
- * immediately invoke them. Provide `options` to indicate whether `func`
- * should be invoked on the leading and/or trailing edge of the `wait`
- * timeout. The `func` is invoked with the last arguments provided to the
- * throttled function. Subsequent calls to the throttled function return the
- * result of the last `func` invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the throttled function
- * is invoked more than once during the `wait` timeout.
- *
- * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
- * until to the next tick, similar to `setTimeout` with a timeout of `0`.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.throttle` and `_.debounce`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to throttle.
- * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=true]
- *  Specify invoking on the leading edge of the timeout.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new throttled function.
- * @example
- *
- * // Avoid excessively updating the position while scrolling.
- * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
- *
- * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
- * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
- * jQuery(element).on('click', throttled);
- *
- * // Cancel the trailing throttled invocation.
- * jQuery(window).on('popstate', throttled.cancel);
- */
-function throttle(func, wait, options) {
-  var leading = true,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  if (isObject(options)) {
-    leading = 'leading' in options ? !!options.leading : leading;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-  return debounce(func, wait, {
-    'leading': leading,
-    'maxWait': wait,
-    'trailing': trailing
-  });
-}
-
-module.exports = throttle;
-
-
-/***/ }),
-
-/***/ "../node_modules/lodash/toNumber.js":
-/*!******************************************!*\
-  !*** ../node_modules/lodash/toNumber.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(/*! ./isObject */ "../node_modules/lodash/isObject.js"),
-    isSymbol = __webpack_require__(/*! ./isSymbol */ "../node_modules/lodash/isSymbol.js");
-
-/** Used as references for various `Number` constants. */
-var NAN = 0 / 0;
-
-/** Used to match leading and trailing whitespace. */
-var reTrim = /^\s+|\s+$/g;
-
-/** Used to detect bad signed hexadecimal string values. */
-var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-/** Used to detect binary string values. */
-var reIsBinary = /^0b[01]+$/i;
-
-/** Used to detect octal string values. */
-var reIsOctal = /^0o[0-7]+$/i;
-
-/** Built-in method references without a dependency on `root`. */
-var freeParseInt = parseInt;
-
-/**
- * Converts `value` to a number.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to process.
- * @returns {number} Returns the number.
- * @example
- *
- * _.toNumber(3.2);
- * // => 3.2
- *
- * _.toNumber(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toNumber(Infinity);
- * // => Infinity
- *
- * _.toNumber('3.2');
- * // => 3.2
- */
-function toNumber(value) {
-  if (typeof value == 'number') {
-    return value;
-  }
-  if (isSymbol(value)) {
-    return NAN;
-  }
-  if (isObject(value)) {
-    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
-    value = isObject(other) ? (other + '') : other;
-  }
-  if (typeof value != 'string') {
-    return value === 0 ? value : +value;
-  }
-  value = value.replace(reTrim, '');
-  var isBinary = reIsBinary.test(value);
-  return (isBinary || reIsOctal.test(value))
-    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-    : (reIsBadHex.test(value) ? NAN : +value);
-}
-
-module.exports = toNumber;
-
-
-/***/ }),
-
 /***/ "../node_modules/object-assign/index.js":
 /*!**********************************************!*\
   !*** ../node_modules/object-assign/index.js ***!
@@ -40034,10 +39338,7 @@ module.exports = g;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DwellTime; });
-/* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/throttle */ "../node_modules/lodash/throttle.js");
-/* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_0__);
- // Window/document events
-
+// Window/document events
 const windowIdleEvents = ["scroll", "resize"];
 const documentIdleEvents = ["keyup", "keydown", "touchstart", "click", "contextmenu"];
 class DwellTime {
@@ -40050,7 +39351,8 @@ class DwellTime {
     idleTimeoutMs
   }) {
     this.onBrowserTabInactive = event => {
-      // if running pause timer
+      this.addLogEvent(event); // if running pause timer
+
       if (this.isRunning()) {
         this.stopTimer();
       }
@@ -40060,6 +39362,8 @@ class DwellTime {
 
     this.onBrowserTabActive = event => {
       // if not running start timer
+      this.addLogEvent(event);
+
       if (!this.isRunning()) {
         this.startTimer();
       }
@@ -40067,7 +39371,9 @@ class DwellTime {
       this.browserTabActiveCallbacks.forEach(fn => fn(this.getTimeInMilliseconds()));
     };
 
-    this.resetIdleTime = () => {
+    this.resetIdleTime = event => {
+      this.addLogEvent(event);
+
       if (this.idle) {
         this.startTimer();
       }
@@ -40076,9 +39382,14 @@ class DwellTime {
       this.currentIdleTimeMs = 0;
     };
 
-    this.resetIdleTimeWithStartTimer = () => {
-      this.resetIdleTime();
+    this.resetIdleTimeWithStartTimer = event => {
+      this.addLogEvent(event);
+      this.resetIdleTime(event);
       this.startTimer();
+    };
+
+    this.getTimes = () => {
+      return this.times;
     };
 
     this.registerEventListeners = () => {
@@ -40086,17 +39397,22 @@ class DwellTime {
         passive: true
       };
       window.addEventListener("blur", this.onBrowserTabInactive, eventListenerOptions);
-      window.addEventListener("focus", this.onBrowserTabActive, eventListenerOptions);
-      const throttleResetIdleTime = lodash_throttle__WEBPACK_IMPORTED_MODULE_0___default()(this.resetIdleTime, 2000, {
+      window.addEventListener("focus", this.onBrowserTabActive, eventListenerOptions); // restrict this method to be called only 2000 times
+
+      /** const throttleResetIdleTime = throttle(this.resetIdleTime, 2000, {
         leading: true,
         trailing: false
       });
+      */
+
       windowIdleEvents.forEach(event => {
-        window.addEventListener(event, throttleResetIdleTime, eventListenerOptions);
+        window.addEventListener(event, this.resetIdleTime, //throttleResetIdleTime
+        eventListenerOptions);
       });
       document.addEventListener("mousemove", this.resetIdleTimeWithStartTimer, eventListenerOptions);
       document.addEventListener("mouseleave", this.onBrowserTabInactive, eventListenerOptions);
-      documentIdleEvents.forEach(event => document.addEventListener(event, throttleResetIdleTime, eventListenerOptions));
+      documentIdleEvents.forEach(event => document.addEventListener(event, this.resetIdleTime, // throttleResetIdleTime,
+      eventListenerOptions));
     };
 
     this.startTimer = () => {
@@ -40115,32 +39431,6 @@ class DwellTime {
         stop: null
       });
       this.running = true;
-    };
-
-    this.stopTimer = () => {
-      if (!this.times.length) {
-        return;
-      }
-
-      this.times[this.times.length - 1].stop = performance.now();
-      this.running = false;
-    };
-
-    this.resumeTimer = () => {
-      this.running = true;
-    }; //Get Time in Milliseconds
-
-
-    this.getTimeInMilliseconds = () => {
-      return this.times.reduce((acc, current) => {
-        if (current.stop) {
-          acc = acc + (current.stop - current.start);
-        } else {
-          acc = acc + (performance.now() - current.start);
-        }
-
-        return acc;
-      }, 0);
     }; // --- --- --- --- --- --- --- ---- Check inteval for callbacks-------------
 
 
@@ -40232,6 +39522,7 @@ class DwellTime {
 
     this.running = false;
     this.times = [];
+    this.LogEvents = [];
     this.idle = false;
     this.currentIdleTimeMs = 0;
     this.idleTimeoutMs = idleTimeoutMs || 3000; // 3s
@@ -40242,6 +39533,47 @@ class DwellTime {
     this.browserTabActiveCallbacks = browserTabActiveCallbacks || [];
     this.browserTabInactiveCallbacks = browserTabInactiveCallbacks || [];
     this.registerEventListeners();
+  }
+
+  stopTimer() {
+    if (!this.times.length) {
+      return;
+    }
+
+    this.times[this.times.length - 1].stop = performance.now();
+    this.running = false;
+  }
+
+  resumeTimer() {
+    this.running = true;
+  } //Get Time in Milliseconds
+
+
+  getTimeInMilliseconds() {
+    return this.times.reduce((acc, current) => {
+      if (current.stop) {
+        acc = acc + (current.stop - current.start);
+      } else {
+        acc = acc + (performance.now() - current.start);
+      }
+
+      return acc;
+    }, 0);
+  } //-------------------------------------------Log Events --------------------------------------------------------
+
+
+  addLogEvent(event) {
+    var ignoreEvents = ["mousemove", "keyup", "scroll"];
+    if (ignoreEvents.indexOf(event.type) == -1) this.LogEvents.push({
+      name: event.type,
+      createdDate: new Date()
+    });
+  }
+
+  printEvent() {
+    this.LogEvents.forEach(e => {
+      console.log(name);
+    });
   }
 
 }
@@ -40323,10 +39655,9 @@ const dwellTime = new _DwellTime__WEBPACK_IMPORTED_MODULE_2__["default"]({
   absoluteTimeEllapsedCallbacks: [],
   browserTabInactiveCallbacks: [],
   browserTabActiveCallbacks: [],
-  idleTimeoutMs: 3000,
+  idleTimeoutMs: 5000,
   checkCallbacksIntervalMs: 250
 });
-dwellTime.startTimer();
 class PageA extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   componentDidMount() {
     dwellTime.startTimer();
@@ -40339,10 +39670,13 @@ class PageA extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       timeInMilliseconds: 10,
       callback: () => {
         console.log("callback : " + dwellTime.getTimeInMilliseconds() / 1000);
-        document.getElementById("timeInSeconds").textContent = "" + dwellTime.getTimeInMilliseconds() / 1000;
+        document.getElementById("timeInSeconds").textContent = "" + (dwellTime.getTimeInMilliseconds() / 1000).toFixed(2);
+        document.getElementById("logEvents").textContent = JSON.stringify(dwellTime.LogEvents) + "\n\n\n";
+        console.log(dwellTime.LogEvents);
+        dwellTime.printEvent();
       }
     };
-    dwellTime.addTimeIntervalEllapsedCallback(cb); //querySelector
+    dwellTime.addTimeIntervalEllapsedCallback(cb); // querySelector
 
     var monitor = setInterval(() => {
       var isTabActive;
@@ -40366,19 +39700,24 @@ class PageA extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
           dwellTime.stopTimer();
         }
       }
+
+      var hiddenPropName = "";
+      var visibilityChangeEventName = "";
     }, 50);
-    return react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", null, react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, "Hello from page A"), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", null, react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, "Total Time Spent by the user on the page:", " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("span", {
+    return react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", null, react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      to: "/pageB"
+    }, "Navigate to Page B"), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, "Hello from page A"), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", null, react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, "Total Time Spent by the user on the page:", " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("span", {
       id: "timeInSeconds"
-    }, "0"), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("span", null, "seconds"), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("iframe", {
+    }, "0"), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("span", null, "seconds"), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null)), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h3", null, "Log Events : ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("span", {
+      id: "logEvents"
+    }), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null)), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("iframe", {
       id: "dframe",
       width: "420",
       height: "345",
       src: "https://www.youtube.com/embed/tgbNymZ7vqY"
-    }), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", null, react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, " What is Lorem Ipsum?"), "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, "Why do we use it?"), "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, "Where does it come from?"), "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.")), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("p", null, "TTime Spent on Page : ", timeSpentOnPage, "our ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("a", {
+    }), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", null, react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, " What is Lorem Ipsum?"), "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, "Why do we use it?"), "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), "it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, "Where does it come from?"), "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney Col ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), "lege in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, "Where does it come from?"), "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32."), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("p", null, "TTime Spent on Page : ", timeSpentOnPage, "our ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("a", {
       href: "http://forum.kirupa.com"
-    }, "forums"), ".")), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-      to: "/pageB"
-    }, "Navigate to Page B"));
+    }, "forums"), ".")), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null));
   }
 
   componentWillUnmount() {
