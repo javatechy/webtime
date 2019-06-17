@@ -1,5 +1,3 @@
-// import throttle from "lodash/throttle";
-
 interface BaseTimeEllapsedCallbackData {
   callback: (timeInMs: number) => void;
   timeInMilliseconds: number;
@@ -30,6 +28,11 @@ interface Times {
   stop: number | null;
 }
 
+interface LogEvent {
+  name: string;
+  createdDate: Date;
+}
+
 // Window/document events
 const windowIdleEvents = ["scroll", "resize"];
 const documentIdleEvents = [
@@ -46,6 +49,7 @@ export default class DwellTime {
   private idle: boolean;
   private checkCallbackIntervalId?: number;
   private currentIdleTimeMs: number;
+  public LogEvents: LogEvent[];
 
   private idleTimeoutMs: number;
   private checkCallbacksIntervalMs: number;
@@ -64,6 +68,7 @@ export default class DwellTime {
   }: Settings) {
     this.running = false;
     this.times = [];
+    this.LogEvents = [];
     this.idle = false;
     this.currentIdleTimeMs = 0;
     this.idleTimeoutMs = idleTimeoutMs || 3000; // 3s
@@ -76,6 +81,7 @@ export default class DwellTime {
   }
 
   private onBrowserTabInactive = (event: Event) => {
+    this.addLogEvent(event);
     // if running pause timer
     if (this.isRunning()) {
       this.stopTimer();
@@ -88,6 +94,7 @@ export default class DwellTime {
 
   private onBrowserTabActive = (event: Event) => {
     // if not running start timer
+    this.addLogEvent(event);
     if (!this.isRunning()) {
       this.startTimer();
     }
@@ -97,7 +104,8 @@ export default class DwellTime {
     );
   };
 
-  public resetIdleTime = () => {
+  public resetIdleTime = (event: Event) => {
+    this.addLogEvent(event);
     if (this.idle) {
       this.startTimer();
     }
@@ -105,8 +113,9 @@ export default class DwellTime {
     this.currentIdleTimeMs = 0;
   };
 
-  public resetIdleTimeWithStartTimer = () => {
-    this.resetIdleTime();
+  public resetIdleTimeWithStartTimer = (event: Event) => {
+    this.addLogEvent(event);
+    this.resetIdleTime(event);
     this.startTimer();
   };
 
@@ -122,7 +131,7 @@ export default class DwellTime {
       this.onBrowserTabInactive,
       eventListenerOptions
     );
-    
+
     window.addEventListener(
       "focus",
       this.onBrowserTabActive,
@@ -240,6 +249,17 @@ export default class DwellTime {
     }
   };
 
+  
+  //-------------------------------------------Log Events --------------------------------------------------------
+  private addLogEvent(event: Event) {
+    var ignoreEvents = ["mousemove", "keyup", "scroll"];
+    if (ignoreEvents.indexOf(event.type) == -1)
+      this.LogEvents.push({ name: event.type, createdDate: new Date() });
+  }
+
+  public printEvent() {
+    this.LogEvents.forEach((e)=> {console.log(name)});
+  }
   // ------------------------------------------------------------------------- Reset methods -----------------------------------------------------
   // Check if timer is running
   public isRunning = () => {
