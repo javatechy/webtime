@@ -97,7 +97,7 @@ export default class DwellTime {
     );
   };
 
-  private resetIdleTime = () => {
+  public resetIdleTime = () => {
     if (this.idle) {
       this.startTimer();
     }
@@ -167,7 +167,7 @@ export default class DwellTime {
       return;
     }
     this.times.push({
-      start: performance.now(),
+      start: performance.now(), // finds the current time
       stop: null
     });
     this.running = true;
