@@ -1,4 +1,4 @@
-import throttle from "lodash/throttle";
+// import throttle from "lodash/throttle";
 
 interface BaseTimeEllapsedCallbackData {
   callback: (timeInMs: number) => void;
@@ -50,7 +50,7 @@ export default class DwellTime {
   private idleTimeoutMs: number;
   private checkCallbacksIntervalMs: number;
   private browserTabActiveCallbacks: BasicCallback[]; // when tab is active
-  private browserTabInactiveCallbacks: BasicCallback[];// when tab is inactive
+  private browserTabInactiveCallbacks: BasicCallback[]; // when tab is inactive
   private timeIntervalEllapsedCallbacks: TimeIntervalEllapsedCallbackData[];
   private absoluteTimeEllapsedCallbacks: AbsoluteTimeEllapsedCallbackData[];
 
@@ -110,6 +110,10 @@ export default class DwellTime {
     this.startTimer();
   };
 
+  public getTimes = (): Times[] => {
+    return this.times;
+  };
+
   private registerEventListeners = () => {
     const eventListenerOptions = { passive: true };
 
@@ -118,21 +122,22 @@ export default class DwellTime {
       this.onBrowserTabInactive,
       eventListenerOptions
     );
+    
     window.addEventListener(
       "focus",
       this.onBrowserTabActive,
       eventListenerOptions
     );
-
-    const throttleResetIdleTime = throttle(this.resetIdleTime, 2000, {
+    // restrict this method to be called only 2000 times
+    /** const throttleResetIdleTime = throttle(this.resetIdleTime, 2000, {
       leading: true,
       trailing: false
     });
-
+*/
     windowIdleEvents.forEach(event => {
       window.addEventListener(
         event,
-        throttleResetIdleTime,
+        this.resetIdleTime, //throttleResetIdleTime
         eventListenerOptions
       );
     });
@@ -152,7 +157,7 @@ export default class DwellTime {
     documentIdleEvents.forEach(event =>
       document.addEventListener(
         event,
-        throttleResetIdleTime,
+        this.resetIdleTime, // throttleResetIdleTime,
         eventListenerOptions
       )
     );
@@ -173,19 +178,20 @@ export default class DwellTime {
     this.running = true;
   };
 
-  public stopTimer = () => {
+  public stopTimer() {
     if (!this.times.length) {
       return;
     }
     this.times[this.times.length - 1].stop = performance.now();
     this.running = false;
-  };
+  }
 
-  public resumeTimer = () => {
+  public resumeTimer() {
     this.running = true;
   }
+
   //Get Time in Milliseconds
-  public getTimeInMilliseconds = (): number => {
+  public getTimeInMilliseconds(): number {
     return this.times.reduce((acc, current) => {
       if (current.stop) {
         acc = acc + (current.stop - current.start);
@@ -194,7 +200,7 @@ export default class DwellTime {
       }
       return acc;
     }, 0);
-  };
+  }
 
   // --- --- --- --- --- --- --- ---- Check inteval for callbacks-------------
 
