@@ -8,7 +8,7 @@ const dwellTime = new DwellTime({
   absoluteTimeEllapsedCallbacks: [],
   browserTabInactiveCallbacks: [],
   browserTabActiveCallbacks: [],
-  idleTimeoutMs: 3000,
+  idleTimeoutMs: 5000,
   checkCallbacksIntervalMs: 250
 });
 
@@ -27,7 +27,7 @@ export class PageA extends React.Component {
       callback: () => {
         console.log("callback : " + dwellTime.getTimeInMilliseconds() / 1000);
         document.getElementById("timeInSeconds").textContent =
-          "" + dwellTime.getTimeInMilliseconds() / 1000;
+          "" + (dwellTime.getTimeInMilliseconds() / 1000).toFixed(2);
       }
     };
     dwellTime.addTimeIntervalEllapsedCallback(cb);
@@ -60,6 +60,7 @@ export class PageA extends React.Component {
 
     return (
       <div>
+         <Link to="/pageB">Navigate to Page B</Link>
         <h2>Hello from page A</h2>
         <br />
         <br />
@@ -90,7 +91,7 @@ export class PageA extends React.Component {
               <h2>Why do we use it?</h2>
               It is a long established fact that a reader will be distracted by
               the readable content of a page when looking at its layout. The
-              point of using Lorem Ipsum is that it has a more-or-less normal
+              point of using Lorem Ipsum is that  <br /> <br /> <br /> <br />it has a more-or-less normal
               distribution of letters, as opposed to using 'Content here,
               content here', making it look like readable English. Many desktop
               publishing packages and web page editors now use Lorem Ipsum as
@@ -103,7 +104,7 @@ export class PageA extends React.Component {
               Contrary to popular belief, Lorem Ipsum is not simply random text.
               It has roots in a piece of classical Latin literature from 45 BC,
               making it over 2000 years old. Richard McClintock, a Latin
-              professor at Hampden-Sydney College in Virginia, looked up one of
+              professor at Hampden-Sydney Col <br /> <br /> <br /> <br />lege in Virginia, looked up one of
               the more obscure Latin words, consectetur, from a Lorem Ipsum
               passage, and going through the cites of the word in classical
               literature, discovered the undoubtable source. Lorem Ipsum comes
@@ -117,7 +118,7 @@ export class PageA extends React.Component {
               Contrary to popular belief, Lorem Ipsum is not simply random text.
               It has roots in a piece of classical Latin literature from 45 BC,
               making it over 2000 years old. Richard McClintock, a Latin
-              professor at Hampden-Sydney College in Virginia, looked up one of
+              professor at Hampden-Sydney College <br /> <br /> <br /> <br /> in Virginia, looked up one of
               the more obscure Latin words, consectetur, from a Lorem Ipsum
               passage, and going through the cites of the word in classical
               literature, discovered the undoubtable source. Lorem Ipsum comes
@@ -135,7 +136,7 @@ export class PageA extends React.Component {
           </p>
         </div>
         <br />
-        <Link to="/pageB">Navigate to Page B</Link>
+       
       </div>
     );
   }
