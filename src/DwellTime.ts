@@ -253,6 +253,11 @@ export default class DwellTime {
   //-------------------------------------------Log Events --------------------------------------------------------
   private addLogEvent(event: Event) {
     var ignoreEvents = ["mousemove", "keyup", "scroll"];
+    var elem = document.activeElement;
+    
+    if (elem && elem.tagName == "IFRAME")
+      this.LogEvents.push({ name: "IFRAME_ACTIVE", createdDate: new Date() });
+
     if (ignoreEvents.indexOf(event.type) == -1)
       this.LogEvents.push({ name: event.type, createdDate: new Date() });
   }
