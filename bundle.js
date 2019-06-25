@@ -39564,6 +39564,9 @@ class DwellTime {
 
   addLogEvent(event) {
     var ignoreEvents = ["mousemove", "keyup", "scroll"];
+    var elem = document.activeElement; //if (elem && elem.tagName == "IFRAME")
+    //  this.LogEvents.push({ name: "IFRAME_ACTIVE", createdDate: new Date() });
+
     if (ignoreEvents.indexOf(event.type) == -1) this.LogEvents.push({
       name: event.type,
       createdDate: new Date()
@@ -39676,34 +39679,7 @@ class PageA extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
         dwellTime.printEvent();
       }
     };
-    dwellTime.addTimeIntervalEllapsedCallback(cb); // querySelector
-
-    var monitor = setInterval(() => {
-      var isTabActive;
-      var elem = document.activeElement;
-
-      window.onfocus = function () {
-        isTabActive = true;
-      };
-
-      window.onblur = function () {
-        isTabActive = false;
-      };
-
-      if (elem && elem.tagName == "IFRAME") {
-        //clearInterval(monitor);
-        // Add timer
-        if (isTabActive) {
-          dwellTime.startTimer();
-          console.log("clicked!");
-        } else {
-          dwellTime.stopTimer();
-        }
-      }
-
-      var hiddenPropName = "";
-      var visibilityChangeEventName = "";
-    }, 50);
+    dwellTime.addTimeIntervalEllapsedCallback(cb);
     return react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", null, react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
       to: "/pageB"
     }, "Navigate to Page B"), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, "Hello from page A"), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("br", null), react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", null, react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("h2", null, "Total Time Spent by the user on the page:", " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("span", {
